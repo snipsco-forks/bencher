@@ -402,16 +402,10 @@ pub fn fmt_bench_samples(bs: &BenchSamples) -> String {
     let median = bs.ns_iter_summ.median as u64;
     let deviation = (bs.ns_iter_summ.max - bs.ns_iter_summ.min) as u64;
 
-    if deviation == 0 && median > SINGLE_SAMPLE_THRESHOLD_NS {
-        output.write_fmt(format_args!("{:>11} ms (single sample)",
-                                          fmt_thousands_sep(median / 1_000_000, ',')))
-              .unwrap();
-    } else {
-        output.write_fmt(format_args!("{:>11} ns/iter (+/- {})",
-                                          fmt_thousands_sep(median, ','),
-                                          fmt_thousands_sep(deviation, ',')))
-              .unwrap();
-    }
+    output.write_fmt(format_args!("{:>11} ns/iter (+/- {})",
+                                  fmt_thousands_sep(median, ','),
+                                  fmt_thousands_sep(deviation, ',')))
+          .unwrap();
     if bs.mb_s != 0 {
         output.write_fmt(format_args!(" = {} MB/s", bs.mb_s)).unwrap();
     }
